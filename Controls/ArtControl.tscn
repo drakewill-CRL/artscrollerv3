@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjuuio1pgchhn"]
+
+[ext_resource type="Script" uid="uid://mylusujn7wqb" path="res://Controls/art_control.gd" id="1_nljw7"]
+
+[node name="ArtControl" type="MarginContainer"]
+custom_minimum_size = Vector2(720, 900)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_nljw7")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="clrBG" type="ColorRect" parent="Control"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 720.0
+offset_bottom = 1282.0
+mouse_filter = 1
+color = Color(0.25, 0.075, 0, 1)
+
+[node name="lblName" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 719.0
+offset_bottom = 25.0
+text = "Image Name"
+
+[node name="lblDataSet" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = 2.0
+offset_top = 43.0
+offset_right = 722.0
+offset_bottom = 66.0
+text = "Data Set"
+
+[node name="txrArt" type="TextureRect" parent="Control"]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 76.0
+offset_right = 701.0
+offset_bottom = 693.0
+expand_mode = 5
+
+[connection signal="gui_input" from="Control/txrArt" to="." method="tap"]

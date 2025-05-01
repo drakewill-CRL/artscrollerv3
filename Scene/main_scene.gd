@@ -1,0 +1,89 @@
+extends Node2D
+
+var artControlPL = preload("res://Controls/ArtControl.tscn")
+var zoomControlPL = preload("res://Controls/ZoomedArtControl.tscn")
+
+var itemsAtOnce = 10
+var allItems = []
+
+#TODO: 
+# Enable an options screen to toggle files on/off dynamically
+# pretty up the UI some.
+# Enable dragging on the zoom control
+# find other open data sets (or make some)
+
+@onready var vbox = $ScrollContainer/VBoxContainer
+var scrollbar
+
+func _ready() -> void:
+	OS.request_permissions() #This and the Manage_External_Storage permissions are currently needed
+	scrollbar = $ScrollContainer.get_v_scroll_bar()
+	scrollbar.value_changed.connect(CheckForAdd)
+	
+	LoadPCKs()
+	
+	AddMoreArt()
+
+func LoadPCKs():
+	#step 1: find PCKs, either manually selected or automatically found
+	var pcks = []
+	var dlPath = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	var files = DirAccess.get_files_at(dlPath)
+	for file in files:
+		if file.ends_with("pck"):
+			pcks.append(dlPath + "/" + file)
+			print("found PCK at " + file)
+	
+	for pck in pcks:
+		var loaded = ProjectSettings.load_resource_pack(pck)
+		if (loaded):
+			pass
+			
+	# Step 2: Get metadata into memory from loaded PCKs
+	var subfolders = DirAccess.get_directories_at("res://ArtPack")
+	for sf in subfolders:
+		var metadata = JSON.parse_string(FileAccess.get_file_as_string("res://ArtPack/" + sf + "/metadata.json")) #read json file.
+		allItems.append(metadata)
+
+func PickItem():
+	if allItems.is_empty():
+		return
+		
+	var pickedSet = allItems.pick_random()
+	var pickedItem = pickedSet.DataItems.pick_random()
+	pickedItem.DataSet = pickedSet.PackName
+	return pickedItem
+
+func ShowZoomedArt(texture):
+	#var zoom = zoomControlPL.instantiate()
+	$ZoomedArtControl.SetTexture(texture)
+	$ZoomedArtControl.position.x = 0
+
+func _input_ignore(event: InputEvent) -> void:
+	if event is not InputEventMouseButton:
+		return
+	if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		return
+		
+	#TODO: Determine which image was tapped, send that texture to ZoomedArtControl
+	for control in $ScrollContainer/VBoxContainer.get_children():
+
+		var txr = control.get_node('Control/txrArt')
+		var rect = txr.get_rect()
+		if rect.has_point(event.global_position): #doesnt work, always grabs first one.
+			ShowZoomedArt(txr.texture)
+			return
+
+func ButtonPushed(btn):
+	ShowZoomedArt(btn)
+
+func AddMoreArt():
+	for i in itemsAtOnce:
+		var artDisplay = artControlPL.instantiate()
+		artDisplay.art_tapped.connect(ButtonPushed)
+		vbox.add_child(artDisplay)
+		artDisplay.SetArt(PickItem())
+
+func CheckForAdd(newVal):
+	if newVal > scrollbar.max_value - 1300: #Assuming this is pixels.
+		AddMoreArt()
