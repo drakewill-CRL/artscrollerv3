@@ -12,7 +12,7 @@ func SetArt(dataitem):
 		
 	$Control/txrArt.texture = load("res://ArtPack/" + dataitem.Folder + "/" + dataitem.Filename)
 	#$Control/btnArt.icon = load("res://ArtPack/" + dataitem.Folder + "/" + dataitem.Filename)
-	$Control/lblName.text = dataitem.DisplayName
+	$Control/lblName.text = dataitem.DisplayName # + " : " + dataitem.Filename # for debugging
 	$Control/lblDataSet.text = dataitem.DataSet
 	
 	var actualSize = $Control/txrArt.get_rect().size

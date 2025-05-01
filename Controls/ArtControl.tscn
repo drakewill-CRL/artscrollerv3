@@ -47,6 +47,7 @@ offset_left = 19.0
 offset_top = 76.0
 offset_right = 701.0
 offset_bottom = 693.0
-expand_mode = 5
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="gui_input" from="Control/txrArt" to="." method="tap"]

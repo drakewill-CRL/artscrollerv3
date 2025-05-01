@@ -11,6 +11,7 @@ var allItems = []
 # pretty up the UI some.
 # Enable dragging on the zoom control
 # find other open data sets (or make some)
+# Make all entries fairly likely (not based on # of sets)
 
 @onready var vbox = $ScrollContainer/VBoxContainer
 var scrollbar
@@ -43,15 +44,18 @@ func LoadPCKs():
 	var subfolders = DirAccess.get_directories_at("res://ArtPack")
 	for sf in subfolders:
 		var metadata = JSON.parse_string(FileAccess.get_file_as_string("res://ArtPack/" + sf + "/metadata.json")) #read json file.
-		allItems.append(metadata)
+		for item in metadata.DataItems:
+			item.DataSet = metadata.PackName
+		allItems.append_array(metadata.DataItems)
 
 func PickItem():
 	if allItems.is_empty():
 		return
 		
-	var pickedSet = allItems.pick_random()
-	var pickedItem = pickedSet.DataItems.pick_random()
-	pickedItem.DataSet = pickedSet.PackName
+	#var pickedSet = allItems.pick_random()
+	#var pickedItem = pickedSet.DataItems.pick_random()
+	#pickedItem.DataSet = pickedSet.PackName
+	var pickedItem = allItems.pick_random()
 	return pickedItem
 
 func ShowZoomedArt(texture):
