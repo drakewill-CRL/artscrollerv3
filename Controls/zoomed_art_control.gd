@@ -58,8 +58,10 @@ func _input(event: InputEvent) -> void:
 		return
 		
 	#TODO: on drag event, check screen_relative and adjust currentCenter by that amount
+	elif event is InputEventScreenDrag:
+		$txrArt.position += event.screen_relative
 	
-	if event is InputEventMouseButton:
+	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			$txrArt.scale += Vector2(0.1, 0.1)
 

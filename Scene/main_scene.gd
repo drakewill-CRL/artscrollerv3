@@ -11,7 +11,18 @@ var allItems = []
 # pretty up the UI some.
 # Enable dragging on the zoom control
 # find other open data sets (or make some)
-# Make all entries fairly likely (not based on # of sets)
+
+#NOTE:
+# To make a new pack for Artscroller:
+# - Make a new Godot Project.
+# - Put one folder in it, named ArtPack
+# - inside the ArtPack folder, put any subfolders desired. At least one is necessary
+# - - Beside all the files you want to display, the subfolder needs a metadata.json file
+# - - metadata.json needs a PackName value, and an DataItems array.
+# - - each DataItem needs 3 properties: Filename, Folder, DisplayName. DataSet is applied on load.
+# - - Once complete, Export the project to a .pck file (I use a Web export to enable the button)
+# I use separate apps/scripts I've written to manage the large amount of files and pull the name from
+# another source - an open access CSV, the MAME xml for its game lists, etc.
 
 @onready var vbox = $ScrollContainer/VBoxContainer
 var scrollbar
