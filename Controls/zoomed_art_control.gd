@@ -47,18 +47,22 @@ func handle_drag(event: InputEventScreenDrag):
 		if can_zoom:
 			position = start_zoom / zoom_factor
 
+var inputCounter = 0
+var wasDragged = true
 func _input(event: InputEvent) -> void:
+	inputCounter += 1
 	if event is InputEventMagnifyGesture:
 		$txrArt.scale *= event.factor
 		if $txrArt.scale.x < 0.2:
 				$txrArt.scale = Vector2(0.2, 0.2)
-		elif $txrArt.scale.x > 4:
-			$txrArt.scale = Vector2(4,4)
+		#elif $txrArt.scale.x > 8:
+			#$txrArt.scale = Vector2(8,8)
 		recenter()
 		return
 		
 	#TODO: on drag event, check screen_relative and adjust currentCenter by that amount
 	elif event is InputEventScreenDrag:
+		#wasDragged = true
 		$txrArt.position += event.screen_relative
 	
 	elif event is InputEventMouseButton:
@@ -68,9 +72,11 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			if $txrArt.scale.x > 0.2:
 				$txrArt.scale -= Vector2(0.1, 0.1)
-		recenter()
+		#if wasDragged:
+			#wasDragged = false
 
 func recenter():
+	#TODO: If the image has been panned around, keep the spot on the center of the screen in the center of the screen.
 	var boxSize = $txrArt.get_rect().size
 	$txrArt.position = currentCenter - (boxSize / 2)
 

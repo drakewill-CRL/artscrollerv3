@@ -30,8 +30,9 @@ layout_mode = 2
 offset_left = -1.0
 offset_top = 2.0
 offset_right = 719.0
-offset_bottom = 25.0
+offset_bottom = 48.0
 text = "Image Name"
+autowrap_mode = 3
 
 [node name="lblDataSet" type="Label" parent="Control"]
 layout_mode = 2

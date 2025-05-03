@@ -13,7 +13,8 @@ config_version=5
 config/name="ArtScrollerV3"
 run/main_scene="uid://btvpgjgs1b0v5"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="uid://c1jby8wvlevbm"
+config/icon="uid://dhgmo02jlcnd8"
 
 [display]
 

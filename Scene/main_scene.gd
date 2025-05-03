@@ -9,7 +9,6 @@ var allItems = []
 #TODO: 
 # Enable an options screen to toggle files on/off dynamically
 # pretty up the UI some.
-# Enable dragging on the zoom control
 # find other open data sets (or make some)
 
 #NOTE:

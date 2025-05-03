@@ -23,12 +23,14 @@ offset_right = 400.0
 offset_bottom = 680.0
 grow_horizontal = 2
 grow_vertical = 2
+stretch_mode = 5
 
 [node name="btnClose" type="Button" parent="."]
-offset_left = 668.0
+offset_left = 608.0
 offset_top = 3.0
 offset_right = 718.0
-offset_bottom = 34.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 40
 text = "Close"
 
 [connection signal="pressed" from="btnClose" to="." method="close"]
