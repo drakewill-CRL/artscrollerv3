@@ -16,11 +16,15 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/image="uid://c1jby8wvlevbm"
 config/icon="uid://dhgmo02jlcnd8"
 
+[autoload]
+
+Globals="*res://Scene/globals.gd"
+
 [display]
 
 window/size/viewport_width=720
 window/size/viewport_height=1280
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/handheld/orientation=1
 
 [input_devices]

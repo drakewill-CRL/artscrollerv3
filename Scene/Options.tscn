@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2vrt6022yufh"]
+
+[ext_resource type="Script" uid="uid://6pr7pwog4h3r" path="res://Scene/options.gd" id="1_j5knc"]
+[ext_resource type="Theme" uid="uid://d1eydy2r734mq" path="res://Resources/core.tres" id="2_74hho"]
+
+[node name="Options" type="Node2D"]
+script = ExtResource("1_j5knc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 720.0
+offset_bottom = 1280.0
+color = Color(0.0112248, 0.0515273, 0.0135398, 1)
+
+[node name="sc" type="ScrollContainer" parent="."]
+offset_left = 33.0
+offset_top = 133.0
+offset_right = 446.0
+offset_bottom = 1113.0
+
+[node name="vb" type="VBoxContainer" parent="sc"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="."]
+offset_left = 324.0
+offset_top = 1196.0
+offset_right = 405.0
+offset_bottom = 1235.0
+theme = ExtResource("2_74hho")
+theme_override_font_sizes/font_size = 30
+text = "Close"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 47.0
+offset_top = 82.0
+offset_right = 238.0
+offset_bottom = 105.0
+theme = ExtResource("2_74hho")
+theme_override_font_sizes/font_size = 30
+text = "Show Available Sets:"
+
+[connection signal="pressed" from="Button" to="." method="Close"]

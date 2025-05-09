@@ -50,10 +50,19 @@ func LoadPCKs():
 		if (loaded):
 			pass
 			
+	var savedPrefs = Globals.LoadData("user://disabled.json")
+	if savedPrefs == null:
+		savedPrefs = {}
+	if !savedPrefs.has("disabled"):
+		savedPrefs.disabled = []
 	# Step 2: Get metadata into memory from loaded PCKs
 	var subfolders = DirAccess.get_directories_at("res://ArtPack")
 	for sf in subfolders:
 		var metadata = JSON.parse_string(FileAccess.get_file_as_string("res://ArtPack/" + sf + "/metadata.json")) #read json file.
+		if !Globals.allSets.has(metadata.PackName):
+			Globals.allSets.append(metadata.PackName)
+			if !savedPrefs.disabled.has(metadata.PackName):
+				Globals.enabledSets.append(metadata.PackName)
 		for item in metadata.DataItems:
 			item.DataSet = metadata.PackName
 		allItems.append_array(metadata.DataItems)
@@ -61,32 +70,31 @@ func LoadPCKs():
 func PickItem():
 	if allItems.is_empty():
 		return
+	
+	if Globals.enabledSets.size() == 0:
+		Globals.enabledSets = Globals.allSets.duplicate()
 		
-	#var pickedSet = allItems.pick_random()
-	#var pickedItem = pickedSet.DataItems.pick_random()
-	#pickedItem.DataSet = pickedSet.PackName
 	var pickedItem = allItems.pick_random()
+	while (!Globals.enabledSets.has(pickedItem.DataSet)):
+		pickedItem = allItems.pick_random()
 	return pickedItem
 
 func ShowZoomedArt(texture):
-	#var zoom = zoomControlPL.instantiate()
 	$ZoomedArtControl.SetTexture(texture)
 	$ZoomedArtControl.position.x = 0
 
-func _input_ignore(event: InputEvent) -> void:
-	if event is not InputEventMouseButton:
-		return
-	if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-		return
-		
-	#TODO: Determine which image was tapped, send that texture to ZoomedArtControl
-	for control in $ScrollContainer/VBoxContainer.get_children():
-
-		var txr = control.get_node('Control/txrArt')
-		var rect = txr.get_rect()
-		if rect.has_point(event.global_position): #doesnt work, always grabs first one.
-			ShowZoomedArt(txr.texture)
-			return
+#func _input_ignore(event: InputEvent) -> void:
+	#if event is not InputEventMouseButton:
+		#return
+	#if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		#return
+		#
+	#for control in $ScrollContainer/VBoxContainer.get_children():
+		#var txr = control.get_node('Control/txrArt')
+		#var rect = txr.get_rect()
+		#if rect.has_point(event.global_position):
+			#ShowZoomedArt(txr.texture)
+			#return
 
 func ButtonPushed(btn):
 	ShowZoomedArt(btn)
@@ -101,3 +109,7 @@ func AddMoreArt():
 func CheckForAdd(newVal):
 	if newVal > scrollbar.max_value - 1300: #Assuming this is pixels.
 		AddMoreArt()
+		
+func Options():
+	var optScene = preload("res://Scene/Options.tscn")
+	add_child(optScene.instantiate())

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://d1eydy2r734mq"]
+
+[ext_resource type="FontFile" uid="uid://bgbfegly64xxw" path="res://Resources/FRUTIGERLTSTD-ROMAN.OTF" id="1_gqgl2"]
+
+[resource]
+Button/fonts/font = ExtResource("1_gqgl2")
+Label/fonts/font = ExtResource("1_gqgl2")
